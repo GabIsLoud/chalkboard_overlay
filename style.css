@@ -33,6 +33,17 @@ li {
     cursor: pointer;
 }
 
+li .remove-btn {
+    margin-left: auto;
+    background-color: #ff505061;
+    border: none;
+    color: white;
+    padding: 3px 8px;
+    cursor: pointer;
+    border-radius: 8px;
+    display: none;
+}
+
 /* Different fonts */
 .cli-font {
     font-family: 'Courier New', monospace;
