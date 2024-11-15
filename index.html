@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chalkboard Overlay</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@700&family=Doto:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="chalkboard">
-        <h2>Stream Tasks</h2>
         <ul id="taskList"></ul>
+        <button id="toggleControls" onclick="toggleControls()">⚙️</button>
         <div id="controls">
             <input type="text" id="taskInput" placeholder="Add new task...">
             <button onclick="addTask()">Add Task</button>
