@@ -4,6 +4,7 @@ const drawingCanvas = document.getElementById("drawingCanvas");
 const toggleControlsButton = document.getElementById("toggleControls");
 const drawModeButtons = document.getElementById("drawModeButtons");
 const toggleDrawModeButton = document.getElementById("toggleDrawMode");
+const chalkWidthDisplay = document.getElementById("chalkWidthDisplay");
 let isChalkFont = true;
 let isDrawing = false;
 let isErasing = false;
@@ -159,6 +160,17 @@ function clearCanvas() {
 // Change chalk width
 function changeChalkWidth(newWidth) {
     chalkWidth = newWidth;
+    chalkWidthDisplay.textContent = `Width: ${chalkWidth}`;
+}
+
+// Increase chalk width
+function increaseChalkWidth() {
+    changeChalkWidth(chalkWidth + 1);
+}
+
+// Decrease chalk width
+function decreaseChalkWidth() {
+    changeChalkWidth(chalkWidth - 1);
 }
 
 // Load initial font and tasks

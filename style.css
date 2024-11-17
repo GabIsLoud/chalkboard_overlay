@@ -194,3 +194,19 @@ button {
     margin-right: 5px;
     border-radius: 8px;
 }
+
+/* New CSS class for Chalk Width display */
+#chalkWidthDisplay {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+/* New CSS class for plus and minus buttons */
+#drawModeButtons button {
+    background-color: #505050;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 8px;
+}
