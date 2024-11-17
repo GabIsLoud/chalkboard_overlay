@@ -7,6 +7,7 @@ let isChalkFont = true;
 let isDrawing = false;
 let isErasing = false;
 let context = drawingCanvas.getContext("2d");
+let chalkWidth = 5; // P8c43
 
 // Load tasks from localStorage
 function loadTasks() {
@@ -126,7 +127,7 @@ drawingCanvas.addEventListener("mousemove", (e) => {
         } else {
             context.lineTo(e.offsetX, e.offsetY);
             context.strokeStyle = "white";
-            context.lineWidth = 5;
+            context.lineWidth = chalkWidth; // P8c43
             context.stroke();
         }
     }
@@ -148,6 +149,11 @@ function toggleEraser() {
 // Clear the canvas
 function clearCanvas() {
     context.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
+}
+
+// Change chalk width
+function changeChalkWidth(newWidth) { // P8c43
+    chalkWidth = newWidth;
 }
 
 // Load initial font and tasks
