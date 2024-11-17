@@ -13,13 +13,16 @@
     <div id="chalkboard">
         <ul id="taskList"></ul>
         <button id="toggleControls" onclick="toggleControls()">⚙️</button>
-        <div id="controls">
+        <div id="taskModeControls" style="display: none;">
             <input type="text" id="taskInput" placeholder="Add new task...">
             <button onclick="addTask()">Add Task</button>
             <button onclick="toggleFont()">Toggle Font</button>
-            <button id="toggleDrawMode" onclick="toggleDrawMode()">Draw Mode</button> <!-- Pe818 -->
+            <button id="toggleDrawMode" onclick="toggleDrawMode()">Draw Mode</button>
         </div>
-        <canvas id="drawingCanvas" style="display: none;"></canvas> <!-- P7733 -->
+        <div id="drawModeControls" style="display: none;">
+            <button id="toggleTaskMode" onclick="toggleDrawMode()">Task Mode</button>
+        </div>
+        <canvas id="drawingCanvas" style="display: none;"></canvas>
         <div id="drawModeButtons" style="display: none;">
             <button onclick="toggleEraser()">Eraser</button>
             <button onclick="clearCanvas()">Clear</button>

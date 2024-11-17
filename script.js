@@ -1,9 +1,11 @@
 const taskList = document.getElementById("taskList");
-const controls = document.getElementById("controls");
+const taskModeControls = document.getElementById("taskModeControls");
+const drawModeControls = document.getElementById("drawModeControls");
 const drawingCanvas = document.getElementById("drawingCanvas");
 const toggleControlsButton = document.getElementById("toggleControls");
 const drawModeButtons = document.getElementById("drawModeButtons");
 const toggleDrawModeButton = document.getElementById("toggleDrawMode");
+const toggleTaskModeButton = document.getElementById("toggleTaskMode");
 const chalkWidthDisplay = document.getElementById("chalkWidthDisplay");
 let isChalkFont = true;
 let isDrawing = false;
@@ -35,7 +37,7 @@ function loadTasks() {
     });
 
     // Ensure remove buttons are shown if controls are visible
-    if (controls.style.display === "block") {
+    if (taskModeControls.style.display === "block") {
         document.querySelectorAll('.remove-btn').forEach(btn => btn.style.display = 'inline-block');
     }
 
@@ -84,11 +86,16 @@ function toggleFont() {
 
 // Toggle the visibility of the controls
 function toggleControls() {
-    if (controls.style.display === "none") {
-        controls.style.display = "block";
-        document.querySelectorAll('.remove-btn').forEach(btn => btn.style.display = 'inline-block');
+    if (taskModeControls.style.display === "none" && drawModeControls.style.display === "none") {
+        if (drawingCanvas.style.display === "none") {
+            taskModeControls.style.display = "block";
+            document.querySelectorAll('.remove-btn').forEach(btn => btn.style.display = 'inline-block');
+        } else {
+            drawModeControls.style.display = "block";
+        }
     } else {
-        controls.style.display = "none";
+        taskModeControls.style.display = "none";
+        drawModeControls.style.display = "none";
         document.querySelectorAll('.remove-btn').forEach(btn => btn.style.display = 'none');
     }
 
@@ -105,13 +112,15 @@ function toggleDrawMode() {
     if (drawingCanvas.style.display === "none") {
         drawingCanvas.style.display = "block";
         taskList.style.display = "none";
-        controls.style.display = "none";
+        taskModeControls.style.display = "none";
+        drawModeControls.style.display = "block";
         drawModeButtons.style.display = "block";
         toggleDrawModeButton.style.backgroundColor = "#ff5050"; // Change color to red
     } else {
         drawingCanvas.style.display = "none";
         taskList.style.display = "block";
-        controls.style.display = "block";
+        taskModeControls.style.display = "block";
+        drawModeControls.style.display = "none";
         drawModeButtons.style.display = "none";
         toggleDrawModeButton.style.backgroundColor = "#505050"; // Change color back to default
     }
