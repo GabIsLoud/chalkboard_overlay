@@ -3,11 +3,12 @@ const controls = document.getElementById("controls");
 const drawControls = document.getElementById("drawControls");
 const drawingCanvas = document.getElementById("drawingCanvas");
 const toggleControlsButton = document.getElementById("toggleControls");
+const drawModeButtons = document.getElementById("drawModeButtons");
 let isChalkFont = true;
 let isDrawing = false;
 let isErasing = false;
 let context = drawingCanvas.getContext("2d");
-let chalkWidth = 5; // P8c43
+let chalkWidth = 5;
 
 // Load tasks from localStorage
 function loadTasks() {
@@ -105,11 +106,13 @@ function toggleDrawMode() {
         taskList.style.display = "none";
         drawControls.style.display = "block";
         controls.style.display = "none";
+        drawModeButtons.style.display = "block";
     } else {
         drawingCanvas.style.display = "none";
         taskList.style.display = "block";
         drawControls.style.display = "none";
         controls.style.display = "block";
+        drawModeButtons.style.display = "none";
     }
 }
 
@@ -127,7 +130,7 @@ drawingCanvas.addEventListener("mousemove", (e) => {
         } else {
             context.lineTo(e.offsetX, e.offsetY);
             context.strokeStyle = "white";
-            context.lineWidth = chalkWidth; // P8c43
+            context.lineWidth = chalkWidth;
             context.stroke();
         }
     }
@@ -152,7 +155,7 @@ function clearCanvas() {
 }
 
 // Change chalk width
-function changeChalkWidth(newWidth) { // P8c43
+function changeChalkWidth(newWidth) {
     chalkWidth = newWidth;
 }
 

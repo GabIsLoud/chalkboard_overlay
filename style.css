@@ -164,3 +164,10 @@ button {
     margin-right: 5px;
     border-radius: 8px;
 }
+
+/* New div for Eraser and Clear buttons below the canvas */
+#drawModeButtons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
