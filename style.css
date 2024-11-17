@@ -171,3 +171,8 @@ button {
     justify-content: space-between;
     margin-top: 10px;
 }
+
+/* New CSS class for Eraser button's toggled state */
+.eraser-active {
+    background-color: #ff5050;
+}

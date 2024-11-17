@@ -1,6 +1,5 @@
 const taskList = document.getElementById("taskList");
 const controls = document.getElementById("controls");
-const drawControls = document.getElementById("drawControls");
 const drawingCanvas = document.getElementById("drawingCanvas");
 const toggleControlsButton = document.getElementById("toggleControls");
 const drawModeButtons = document.getElementById("drawModeButtons");
@@ -93,9 +92,9 @@ function toggleControls() {
 
     // Show/hide draw mode controls
     if (drawingCanvas.style.display === "block") {
-        drawControls.style.display = "block";
+        drawModeButtons.style.display = "block";
     } else {
-        drawControls.style.display = "none";
+        drawModeButtons.style.display = "none";
     }
 }
 
@@ -104,13 +103,11 @@ function toggleDrawMode() {
     if (drawingCanvas.style.display === "none") {
         drawingCanvas.style.display = "block";
         taskList.style.display = "none";
-        drawControls.style.display = "block";
         controls.style.display = "none";
         drawModeButtons.style.display = "block";
     } else {
         drawingCanvas.style.display = "none";
         taskList.style.display = "block";
-        drawControls.style.display = "none";
         controls.style.display = "block";
         drawModeButtons.style.display = "none";
     }
@@ -147,6 +144,8 @@ drawingCanvas.addEventListener("mouseout", () => {
 // Toggle eraser
 function toggleEraser() {
     isErasing = !isErasing;
+    const eraserButton = drawModeButtons.querySelector("button:nth-child(1)");
+    eraserButton.classList.toggle("eraser-active", isErasing);
 }
 
 // Clear the canvas
