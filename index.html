@@ -17,12 +17,13 @@
             <input type="text" id="taskInput" placeholder="Add new task...">
             <button onclick="addTask()">Add Task</button>
             <button onclick="toggleFont()">Toggle Font</button>
-            <button onclick="toggleDrawMode()">Draw Mode</button> <!-- Pe818 -->
+            <button id="toggleDrawMode" onclick="toggleDrawMode()">Draw Mode</button> <!-- Pe818 -->
         </div>
         <canvas id="drawingCanvas" style="display: none;"></canvas> <!-- P7733 -->
         <div id="drawModeButtons" style="display: none;">
             <button onclick="toggleEraser()">Eraser</button>
             <button onclick="clearCanvas()">Clear</button>
+            <input type="number" id="chalkWidthInput" placeholder="Chalk Width" onchange="changeChalkWidth(this.value)">
         </div>
     </div>
     <script src="script.js"></script>

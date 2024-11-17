@@ -3,6 +3,7 @@ const controls = document.getElementById("controls");
 const drawingCanvas = document.getElementById("drawingCanvas");
 const toggleControlsButton = document.getElementById("toggleControls");
 const drawModeButtons = document.getElementById("drawModeButtons");
+const toggleDrawModeButton = document.getElementById("toggleDrawMode");
 let isChalkFont = true;
 let isDrawing = false;
 let isErasing = false;
@@ -105,11 +106,13 @@ function toggleDrawMode() {
         taskList.style.display = "none";
         controls.style.display = "none";
         drawModeButtons.style.display = "block";
+        toggleDrawModeButton.style.backgroundColor = "#ff5050"; // Change color to red
     } else {
         drawingCanvas.style.display = "none";
         taskList.style.display = "block";
         controls.style.display = "block";
         drawModeButtons.style.display = "none";
+        toggleDrawModeButton.style.backgroundColor = "#505050"; // Change color back to default
     }
 }
 

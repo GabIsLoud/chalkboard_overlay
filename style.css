@@ -176,3 +176,21 @@ button {
 .eraser-active {
     background-color: #ff5050;
 }
+
+/* New CSS class for Draw Mode button's toggled state */
+#toggleDrawMode.active {
+    background-color: #ff5050;
+}
+
+/* New CSS class for Chalk Width input field */
+#chalkWidthInput {
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid white;
+    color: white;
+    font-size: 20px;
+    width: 50px;
+    padding: 5px;
+    margin-right: 5px;
+    border-radius: 8px;
+}
