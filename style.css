@@ -93,12 +93,16 @@ li .remove-btn {
 }
 
 button {
-    background-color: white;
+    background-color: #505050;
     border: none;
     color: white;
     padding: 5px 10px;
     cursor: pointer;
     border-radius: 8px;
+}
+
+button.eraser-button {
+    background-color: white;
 }
 
 /* Toggle button */
