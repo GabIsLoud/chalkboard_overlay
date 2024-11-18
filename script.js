@@ -159,6 +159,11 @@ function toggleEraser() {
     isErasing = !isErasing;
     const eraserButton = drawModeButtons.querySelector("button:nth-child(1)");
     eraserButton.classList.toggle("eraser-active", isErasing);
+    if (isErasing) {
+        eraserButton.style.backgroundColor = "pink";
+    } else {
+        eraserButton.style.backgroundColor = "white";
+    }
 }
 
 // Clear the canvas

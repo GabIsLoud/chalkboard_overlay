@@ -93,7 +93,7 @@ li .remove-btn {
 }
 
 button {
-    background-color: #505050;
+    background-color: white;
     border: none;
     color: white;
     padding: 5px 10px;
@@ -174,7 +174,7 @@ button {
 
 /* New CSS class for Eraser button's toggled state */
 .eraser-active {
-    background-color: #ff5050;
+    background-color: pink;
 }
 
 /* New CSS class for Draw Mode button's toggled state */
