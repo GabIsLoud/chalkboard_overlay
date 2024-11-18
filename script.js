@@ -123,6 +123,8 @@ function toggleDrawMode() {
         drawModeControls.style.display = "none";
         drawModeButtons.style.display = "none";
         toggleDrawModeButton.style.backgroundColor = "#505050"; // Change color back to default
+        document.querySelectorAll('.remove-btn').forEach(btn => btn.style.display = 'inline-block'); // Show remove buttons
+        loadTasks(); // Ensure tasks are loaded when switching to task mode
     }
 }
 
