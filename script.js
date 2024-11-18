@@ -80,8 +80,8 @@ function toggleTaskCross(li, task) {
 // Toggle between fonts
 function toggleFont() {
     isChalkFont = !isChalkFont;
-    document.body.classList.toggle("cli-font", !isChalkFont);
-    document.body.classList.toggle("chalk-font", isChalkFont);
+    document.body.classList.toggle("doto-pixel", !isChalkFont);
+    document.body.classList.toggle("cabin-sketch-bold", isChalkFont);
 }
 
 // Toggle the visibility of the controls
