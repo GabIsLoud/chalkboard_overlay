@@ -225,3 +225,21 @@ button {
 #toggleTaskMode {
     background-color: #ff5050;
 }
+
+/* Styles for the new eraser-like image and crossed-out circle image */
+#drawModeButtons img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Update styles for the width display and its associated buttons in the #drawModeControls div */
+#drawModeControls #chalkWidthDisplay,
+#drawModeControls button {
+    margin-top: 10px;
+    background-color: #505050;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 8px;
+}
