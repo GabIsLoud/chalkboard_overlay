@@ -13,6 +13,17 @@ let isErasing = false;
 let context = drawingCanvas.getContext("2d");
 let chalkWidth = 5;
 
+// Correct cursor alignment on the canvas
+function getCanvasCoords(event) {
+    const rect = drawingCanvas.getBoundingClientRect();
+    const scaleX = drawingCanvas.width / rect.width;
+    const scaleY = drawingCanvas.height / rect.height;
+    return {
+        x: (event.clientX - rect.left) * scaleX,
+        y: (event.clientY - rect.top) * scaleY
+    };
+}
+
 // Load tasks from localStorage
 function loadTasks() {
     const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
@@ -48,6 +59,38 @@ function loadTasks() {
         taskList.style.display = "block";
     }
 }
+
+// Drawing on the canvas
+function startDrawing(event) {
+    isDrawing = true;
+    const coords = getCanvasCoords(event);
+    context.beginPath();
+    context.moveTo(coords.x, coords.y);
+}
+
+function draw(event) {
+    if (isDrawing) {
+        const coords = getCanvasCoords(event);
+        if (isErasing) {
+            context.clearRect(coords.x - 5, coords.y - 5, 10, 10);
+        } else {
+            context.lineTo(coords.x, coords.y);
+            context.strokeStyle = "white";
+            context.lineWidth = chalkWidth;
+            context.stroke();
+        }
+    }
+}
+
+function stopDrawing() {
+    isDrawing = false;
+    context.closePath();
+}
+
+drawingCanvas.addEventListener("mousedown", startDrawing);
+drawingCanvas.addEventListener("mousemove", draw);
+drawingCanvas.addEventListener("mouseup", stopDrawing);
+drawingCanvas.addEventListener("mouseout", stopDrawing);
 
 // Add a new task
 function addTask() {
@@ -127,34 +170,6 @@ function toggleDrawMode() {
         loadTasks(); // Ensure tasks are loaded when switching to task mode
     }
 }
-
-// Drawing on the canvas
-drawingCanvas.addEventListener("mousedown", (e) => {
-    isDrawing = true;
-    context.beginPath();
-    context.moveTo(e.offsetX, e.offsetY);
-});
-
-drawingCanvas.addEventListener("mousemove", (e) => {
-    if (isDrawing) {
-        if (isErasing) {
-            context.clearRect(e.offsetX, e.offsetY, 10, 10);
-        } else {
-            context.lineTo(e.offsetX, e.offsetY);
-            context.strokeStyle = "white";
-            context.lineWidth = chalkWidth;
-            context.stroke();
-        }
-    }
-});
-
-drawingCanvas.addEventListener("mouseup", () => {
-    isDrawing = false;
-});
-
-drawingCanvas.addEventListener("mouseout", () => {
-    isDrawing = false;
-});
 
 // Toggle eraser
 function toggleEraser() {
