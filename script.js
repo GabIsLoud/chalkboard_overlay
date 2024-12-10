@@ -1,10 +1,32 @@
-// Select elements
 const taskList = document.getElementById("taskList");
 const controls = document.getElementById("controls");
 const toggleControlsButton = document.getElementById("toggleControls");
 let isChalkFont = true;
+let penSize = 10; // Default pen size
 
-// Load tasks from localStorage
+const indicatorCanvas = document.getElementById("indicatorCanvas");
+const indicatorCtx = indicatorCanvas.getContext("2d");
+
+function drawIndicator(x, y) {
+    indicatorCtx.clearRect(0, 0, indicatorCanvas.width, indicatorCanvas.height);
+    indicatorCtx.beginPath();
+    indicatorCtx.arc(x, y, penSize / 2, 0, Math.PI * 2);
+    indicatorCtx.strokeStyle = "rgba(255, 255, 255, 0.5)";
+    indicatorCtx.lineWidth = 2;
+    indicatorCtx.stroke();
+}
+
+indicatorCanvas.width = window.innerWidth;
+indicatorCanvas.height = window.innerHeight;
+
+document.addEventListener("mousemove", (e) => {
+    drawIndicator(e.clientX, e.clientY);
+});
+
+document.addEventListener("mousedown", () => {
+    indicatorCtx.clearRect(0, 0, indicatorCanvas.width, indicatorCanvas.height);
+});
+
 function loadTasks() {
     const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     taskList.innerHTML = '';
@@ -14,12 +36,11 @@ function loadTasks() {
         if (task.crossed) li.classList.add("crossed");
         li.onclick = () => toggleTaskCross(li, task);
 
-        // Add remove button
         const removeBtn = document.createElement("button");
         removeBtn.textContent = "-";
         removeBtn.className = "remove-btn";
         removeBtn.onclick = (e) => {
-            e.stopPropagation(); // Prevent the click from crossing out the task
+            e.stopPropagation();
             removeTask(index);
         };
         li.appendChild(removeBtn);
@@ -27,13 +48,11 @@ function loadTasks() {
         taskList.appendChild(li);
     });
 
-    // Ensure remove buttons are shown if controls are visible
     if (controls.style.display === "block") {
         document.querySelectorAll('.remove-btn').forEach(btn => btn.style.display = 'inline-block');
     }
 }
 
-// Add a new task
 function addTask() {
     const taskInput = document.getElementById("taskInput");
     if (taskInput.value.trim() !== "") {
@@ -45,7 +64,6 @@ function addTask() {
     }
 }
 
-// Remove a task
 function removeTask(index) {
     const tasks = JSON.parse(localStorage.getItem('tasks'));
     tasks.splice(index, 1);
@@ -53,7 +71,6 @@ function removeTask(index) {
     loadTasks();
 }
 
-// Toggle task crossed state
 function toggleTaskCross(li, task) {
     task.crossed = !task.crossed;
     li.classList.toggle("crossed");
@@ -61,14 +78,12 @@ function toggleTaskCross(li, task) {
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
-// Toggle between fonts
 function toggleFont() {
     isChalkFont = !isChalkFont;
     document.body.classList.toggle("cli-font", !isChalkFont);
     document.body.classList.toggle("chalk-font", isChalkFont);
 }
 
-// Toggle the visibility of the controls
 function toggleControls() {
     if (controls.style.display === "none") {
         controls.style.display = "block";
@@ -79,6 +94,5 @@ function toggleControls() {
     }
 }
 
-// Load initial font and tasks
 document.body.classList.add("cabin-sketch-bold");
 loadTasks();
