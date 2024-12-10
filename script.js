@@ -1,8 +1,17 @@
-// Select elements
 const taskList = document.getElementById("taskList");
-const controls = document.getElementById("controls");
+const taskModeControls = document.getElementById("taskModeControls");
+const drawModeControls = document.getElementById("drawModeControls");
+const drawingCanvas = document.getElementById("drawingCanvas");
 const toggleControlsButton = document.getElementById("toggleControls");
+const drawModeButtons = document.getElementById("drawModeButtons");
+const toggleDrawModeButton = document.getElementById("toggleDrawMode");
+const toggleTaskModeButton = document.getElementById("toggleTaskMode");
+const chalkWidthDisplay = document.getElementById("chalkWidthDisplay");
 let isChalkFont = true;
+let isDrawing = false;
+let isErasing = false;
+let context = drawingCanvas.getContext("2d");
+let chalkWidth = 5;
 
 // Load tasks from localStorage
 function loadTasks() {
@@ -28,8 +37,15 @@ function loadTasks() {
     });
 
     // Ensure remove buttons are shown if controls are visible
-    if (controls.style.display === "block") {
+    if (taskModeControls.style.display === "block") {
         document.querySelectorAll('.remove-btn').forEach(btn => btn.style.display = 'inline-block');
+    }
+
+    // Hide task list if in draw mode
+    if (drawingCanvas.style.display === "block") {
+        taskList.style.display = "none";
+    } else {
+        taskList.style.display = "block";
     }
 }
 
@@ -64,19 +80,113 @@ function toggleTaskCross(li, task) {
 // Toggle between fonts
 function toggleFont() {
     isChalkFont = !isChalkFont;
-    document.body.classList.toggle("cli-font", !isChalkFont);
-    document.body.classList.toggle("chalk-font", isChalkFont);
+    document.body.classList.toggle("doto-pixel", !isChalkFont);
+    document.body.classList.toggle("cabin-sketch-bold", isChalkFont);
 }
 
 // Toggle the visibility of the controls
 function toggleControls() {
-    if (controls.style.display === "none") {
-        controls.style.display = "block";
-        document.querySelectorAll('.remove-btn').forEach(btn => btn.style.display = 'inline-block');
+    if (taskModeControls.style.display === "none" && drawModeControls.style.display === "none") {
+        if (drawingCanvas.style.display === "none") {
+            taskModeControls.style.display = "block";
+            document.querySelectorAll('.remove-btn').forEach(btn => btn.style.display = 'inline-block');
+        } else {
+            drawModeControls.style.display = "block";
+        }
     } else {
-        controls.style.display = "none";
+        taskModeControls.style.display = "none";
+        drawModeControls.style.display = "none";
         document.querySelectorAll('.remove-btn').forEach(btn => btn.style.display = 'none');
     }
+
+    // Show/hide draw mode controls
+    if (drawingCanvas.style.display === "block") {
+        drawModeButtons.style.display = "block";
+    } else {
+        drawModeButtons.style.display = "none";
+    }
+}
+
+// Toggle between task mode and draw mode
+function toggleDrawMode() {
+    if (drawingCanvas.style.display === "none") {
+        drawingCanvas.style.display = "block";
+        taskList.style.display = "none";
+        taskModeControls.style.display = "none";
+        drawModeControls.style.display = "block";
+        drawModeButtons.style.display = "block";
+        toggleDrawModeButton.style.backgroundColor = "#ff5050"; // Change color to red
+    } else {
+        drawingCanvas.style.display = "none";
+        taskList.style.display = "block";
+        taskModeControls.style.display = "block";
+        drawModeControls.style.display = "none";
+        drawModeButtons.style.display = "none";
+        toggleDrawModeButton.style.backgroundColor = "#505050"; // Change color back to default
+        document.querySelectorAll('.remove-btn').forEach(btn => btn.style.display = 'inline-block'); // Show remove buttons
+        loadTasks(); // Ensure tasks are loaded when switching to task mode
+    }
+}
+
+// Drawing on the canvas
+drawingCanvas.addEventListener("mousedown", (e) => {
+    isDrawing = true;
+    context.beginPath();
+    context.moveTo(e.offsetX, e.offsetY);
+});
+
+drawingCanvas.addEventListener("mousemove", (e) => {
+    if (isDrawing) {
+        if (isErasing) {
+            context.clearRect(e.offsetX, e.offsetY, 10, 10);
+        } else {
+            context.lineTo(e.offsetX, e.offsetY);
+            context.strokeStyle = "white";
+            context.lineWidth = chalkWidth;
+            context.stroke();
+        }
+    }
+});
+
+drawingCanvas.addEventListener("mouseup", () => {
+    isDrawing = false;
+});
+
+drawingCanvas.addEventListener("mouseout", () => {
+    isDrawing = false;
+});
+
+// Toggle eraser
+function toggleEraser() {
+    isErasing = !isErasing;
+    const eraserButton = drawModeButtons.querySelector("button:nth-child(1)");
+    eraserButton.classList.toggle("eraser-active", isErasing);
+    if (isErasing) {
+        eraserButton.style.backgroundColor = "pink";
+    } else {
+        eraserButton.style.backgroundColor = "white";
+    }
+}
+
+// Clear the canvas
+function clearCanvas() {
+    context.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
+}
+
+// Change chalk width
+function changeChalkWidth(newWidth) {
+    chalkWidth = newWidth;
+    chalkWidthDisplay.textContent = `Width: ${chalkWidth}`;
+}
+
+// Increase chalk width
+function increaseChalkWidth() {
+    changeChalkWidth(chalkWidth + 1);
+}
+
+// Decrease chalk width
+function decreaseChalkWidth() {
+    changeChalkWidth(chalkWidth - 1);
 }
 
 // Load initial font and tasks

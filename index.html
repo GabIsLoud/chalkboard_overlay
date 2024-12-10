@@ -13,10 +13,22 @@
     <div id="chalkboard">
         <ul id="taskList"></ul>
         <button id="toggleControls" onclick="toggleControls()">⚙️</button>
-        <div id="controls">
+        <div id="taskModeControls" style="display: none;">
             <input type="text" id="taskInput" placeholder="Add new task...">
             <button onclick="addTask()">Add Task</button>
             <button onclick="toggleFont()">Toggle Font</button>
+            <button id="toggleDrawMode" onclick="toggleDrawMode()">Draw Mode</button>
+        </div>
+        <div id="drawModeControls" style="display: none;">
+            <button id="toggleTaskMode" onclick="toggleDrawMode()">Task Mode</button>
+            <div id="chalkWidthDisplay">Width: 5</div>
+            <button onclick="decreaseChalkWidth()">-</button>
+            <button onclick="increaseChalkWidth()">+</button>
+        </div>
+        <canvas id="drawingCanvas" style="display: none;"></canvas>
+        <div id="drawModeButtons" style="display: none;">
+            <button onclick="toggleEraser()" style="background-color: white;">✒️</button>
+            <button onclick="clearCanvas()">⛔</button>
         </div>
     </div>
     <script src="script.js"></script>
