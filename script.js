@@ -1,3 +1,4 @@
+// Select elements
 const taskList = document.getElementById("taskList");
 const taskModeControls = document.getElementById("taskModeControls");
 const drawModeControls = document.getElementById("drawModeControls");
