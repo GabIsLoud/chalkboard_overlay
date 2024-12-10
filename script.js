@@ -167,8 +167,8 @@ function updateHoverOverlay(e) {
     const rect = drawingCanvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    hoverOverlay.style.left = `${x}px`;
-    hoverOverlay.style.top = `${y}px`;
+    hoverOverlay.style.left = `${x - chalkWidth / 2}px`;
+    hoverOverlay.style.top = `${y - chalkWidth / 2}px`;
 }
 
 // Toggle eraser

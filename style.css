@@ -257,4 +257,5 @@ button.eraser-button {
     border-radius: 50%;
     pointer-events: none;
     display: none;
+    transform: translate(-50%, -50%);
 }
