@@ -7,6 +7,7 @@ const drawModeButtons = document.getElementById("drawModeButtons");
 const toggleDrawModeButton = document.getElementById("toggleDrawMode");
 const toggleTaskModeButton = document.getElementById("toggleTaskMode");
 const chalkWidthDisplay = document.getElementById("chalkWidthDisplay");
+const hoverOverlay = document.getElementById("hoverOverlay");
 let isChalkFont = true;
 let isDrawing = false;
 let isErasing = false;
@@ -115,6 +116,7 @@ function toggleDrawMode() {
         taskModeControls.style.display = "none";
         drawModeControls.style.display = "block";
         drawModeButtons.style.display = "block";
+        hoverOverlay.style.display = "block";
         toggleDrawModeButton.style.backgroundColor = "#ff5050"; // Change color to red
     } else {
         drawingCanvas.style.display = "none";
@@ -122,6 +124,7 @@ function toggleDrawMode() {
         taskModeControls.style.display = "block";
         drawModeControls.style.display = "none";
         drawModeButtons.style.display = "none";
+        hoverOverlay.style.display = "none";
         toggleDrawModeButton.style.backgroundColor = "#505050"; // Change color back to default
         document.querySelectorAll('.remove-btn').forEach(btn => btn.style.display = 'inline-block'); // Show remove buttons
         loadTasks(); // Ensure tasks are loaded when switching to task mode
@@ -146,6 +149,7 @@ drawingCanvas.addEventListener("mousemove", (e) => {
             context.stroke();
         }
     }
+    updateHoverOverlay(e);
 });
 
 drawingCanvas.addEventListener("mouseup", () => {
@@ -154,6 +158,11 @@ drawingCanvas.addEventListener("mouseup", () => {
 
 drawingCanvas.addEventListener("mouseout", () => {
     isDrawing = false;
+    hoverOverlay.style.display = "none";
+});
+
+drawingCanvas.addEventListener("mouseover", () => {
+    hoverOverlay.style.display = "block";
 });
 
 // Toggle eraser
@@ -187,6 +196,12 @@ function increaseChalkWidth() {
 // Decrease chalk width
 function decreaseChalkWidth() {
     changeChalkWidth(chalkWidth - 1);
+}
+
+// Update hover overlay position and visibility
+function updateHoverOverlay(e) {
+    hoverOverlay.style.left = `${e.offsetX}px`;
+    hoverOverlay.style.top = `${e.offsetY}px`;
 }
 
 // Load initial font and tasks
