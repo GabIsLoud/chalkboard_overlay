@@ -7,6 +7,7 @@ const drawModeButtons = document.getElementById("drawModeButtons");
 const toggleDrawModeButton = document.getElementById("toggleDrawMode");
 const toggleTaskModeButton = document.getElementById("toggleTaskMode");
 const chalkWidthDisplay = document.getElementById("chalkWidthDisplay");
+const hoverOverlay = document.getElementById("hoverOverlay");
 let isChalkFont = true;
 let isDrawing = false;
 let isErasing = false;
@@ -146,6 +147,7 @@ drawingCanvas.addEventListener("mousemove", (e) => {
             context.stroke();
         }
     }
+    updateHoverOverlay(e);
 });
 
 drawingCanvas.addEventListener("mouseup", () => {
@@ -154,7 +156,20 @@ drawingCanvas.addEventListener("mouseup", () => {
 
 drawingCanvas.addEventListener("mouseout", () => {
     isDrawing = false;
+    hoverOverlay.style.display = "none";
 });
+
+drawingCanvas.addEventListener("mouseover", () => {
+    hoverOverlay.style.display = "block";
+});
+
+function updateHoverOverlay(e) {
+    const rect = drawingCanvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    hoverOverlay.style.left = `${x}px`;
+    hoverOverlay.style.top = `${y}px`;
+}
 
 // Toggle eraser
 function toggleEraser() {
