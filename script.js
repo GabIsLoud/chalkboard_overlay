@@ -32,7 +32,7 @@ function loadTasks() {
     tasks.forEach((task, index) => {
         const li = document.createElement("li");
         if (task.crossed) li.classList.add("crossed");
-        li.onclick = () => toggleTaskCross(li, task);
+        li.onclick = () => toggleTaskCross(li, index);
 
         // Add drag handle
         const dragHandle = document.createElement("span");
@@ -162,10 +162,10 @@ function removeTask(index) {
 }
 
 // Toggle task crossed state
-function toggleTaskCross(li, task) {
-    task.crossed = !task.crossed;
-    li.classList.toggle("crossed");
+function toggleTaskCross(li, index) {
     const tasks = JSON.parse(localStorage.getItem('tasks'));
+    tasks[index].crossed = !tasks[index].crossed;
+    li.classList.toggle("crossed");
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
