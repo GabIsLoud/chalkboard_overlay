@@ -10,6 +10,7 @@ const chalkWidthDisplay = document.getElementById("chalkWidthDisplay");
 let isChalkFont = true;
 let isDrawing = false;
 let isErasing = false;
+let dragSrcIndex = null;
 let context = drawingCanvas.getContext("2d");
 let chalkWidth = 5;
 
@@ -30,9 +31,21 @@ function loadTasks() {
     taskList.innerHTML = '';
     tasks.forEach((task, index) => {
         const li = document.createElement("li");
-        li.textContent = task.text;
         if (task.crossed) li.classList.add("crossed");
         li.onclick = () => toggleTaskCross(li, task);
+
+        // Add drag handle
+        const dragHandle = document.createElement("span");
+        dragHandle.textContent = "☰";
+        dragHandle.className = "drag-handle";
+        dragHandle.onclick = (e) => e.stopPropagation();
+        li.appendChild(dragHandle);
+
+        // Add task text
+        const taskText = document.createElement("span");
+        taskText.textContent = task.text;
+        taskText.className = "task-text";
+        li.appendChild(taskText);
 
         // Add remove button
         const removeBtn = document.createElement("button");
@@ -44,12 +57,48 @@ function loadTasks() {
         };
         li.appendChild(removeBtn);
 
+        // Drag-to-reorder events
+        li.addEventListener("dragstart", (e) => {
+            dragSrcIndex = index;
+            e.dataTransfer.effectAllowed = "move";
+            setTimeout(() => li.classList.add("dragging"), 0);
+        });
+        li.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = "move";
+            li.classList.add("drag-over");
+        });
+        li.addEventListener("dragleave", () => {
+            li.classList.remove("drag-over");
+        });
+        li.addEventListener("drop", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            li.classList.remove("drag-over");
+            if (dragSrcIndex !== null && dragSrcIndex !== index) {
+                const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+                const [movedTask] = savedTasks.splice(dragSrcIndex, 1);
+                savedTasks.splice(index, 0, movedTask);
+                localStorage.setItem('tasks', JSON.stringify(savedTasks));
+                loadTasks();
+            }
+        });
+        li.addEventListener("dragend", () => {
+            document.querySelectorAll("#taskList li").forEach(item => {
+                item.classList.remove("dragging");
+                item.classList.remove("drag-over");
+            });
+            dragSrcIndex = null;
+        });
+
         taskList.appendChild(li);
     });
 
-    // Ensure remove buttons are shown if controls are visible
+    // Ensure remove buttons and drag handles are shown if controls are visible
     if (taskModeControls.style.display === "block") {
         document.querySelectorAll('.remove-btn').forEach(btn => btn.style.display = 'inline-block');
+        document.querySelectorAll('.drag-handle').forEach(h => h.style.display = 'inline');
+        document.querySelectorAll('#taskList li').forEach(li => { li.draggable = true; });
     }
 
     // Hide task list if in draw mode
@@ -133,6 +182,8 @@ function toggleControls() {
         if (drawingCanvas.style.display === "none") {
             taskModeControls.style.display = "block";
             document.querySelectorAll('.remove-btn').forEach(btn => btn.style.display = 'inline-block');
+            document.querySelectorAll('.drag-handle').forEach(h => h.style.display = 'inline');
+            document.querySelectorAll('#taskList li').forEach(li => { li.draggable = true; });
         } else {
             drawModeControls.style.display = "block";
         }
@@ -140,6 +191,8 @@ function toggleControls() {
         taskModeControls.style.display = "none";
         drawModeControls.style.display = "none";
         document.querySelectorAll('.remove-btn').forEach(btn => btn.style.display = 'none');
+        document.querySelectorAll('.drag-handle').forEach(h => h.style.display = 'none');
+        document.querySelectorAll('#taskList li').forEach(li => { li.draggable = false; });
     }
 
     // Show/hide draw mode controls
@@ -167,6 +220,8 @@ function toggleDrawMode() {
         drawModeButtons.style.display = "none";
         toggleDrawModeButton.style.backgroundColor = "#505050"; // Change color back to default
         document.querySelectorAll('.remove-btn').forEach(btn => btn.style.display = 'inline-block'); // Show remove buttons
+        document.querySelectorAll('.drag-handle').forEach(h => h.style.display = 'inline');
+        document.querySelectorAll('#taskList li').forEach(li => { li.draggable = true; });
         loadTasks(); // Ensure tasks are loaded when switching to task mode
     }
 }

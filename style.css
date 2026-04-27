@@ -31,6 +31,30 @@ li {
     font-size: 20px;
     margin: 25px 0;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+li .drag-handle {
+    display: none;
+    cursor: grab;
+    margin-right: 8px;
+    user-select: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+li .task-text {
+    flex: 1;
+}
+
+li.dragging {
+    opacity: 0.4;
+}
+
+li.drag-over {
+    border-top: 2px solid rgba(255, 255, 255, 0.6);
 }
 
 li .remove-btn {
@@ -70,8 +94,11 @@ li .remove-btn {
 
 /* Crossed-out style */
 .crossed {
-    text-decoration: line-through;
     opacity: 0.5;
+}
+
+.crossed .task-text {
+    text-decoration: line-through;
 }
 
 /* Control buttons */
