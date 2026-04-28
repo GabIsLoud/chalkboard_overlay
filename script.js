@@ -38,7 +38,14 @@ function loadTasks() {
         const dragHandle = document.createElement("span");
         dragHandle.textContent = "☰";
         dragHandle.className = "drag-handle";
-        dragHandle.onclick = (e) => e.stopPropagation();
+        dragHandle.addEventListener("click", (e) => e.stopPropagation());
+        dragHandle.addEventListener("mousedown", (e) => {
+            e.stopPropagation();
+            li.draggable = true;
+        });
+        dragHandle.addEventListener("mouseup", () => {
+            li.draggable = false;
+        });
         li.appendChild(dragHandle);
 
         // Add task text
@@ -84,6 +91,7 @@ function loadTasks() {
             }
         });
         li.addEventListener("dragend", () => {
+            li.draggable = false;
             document.querySelectorAll("#taskList li").forEach(item => {
                 item.classList.remove("dragging");
                 item.classList.remove("drag-over");
@@ -98,7 +106,6 @@ function loadTasks() {
     if (taskModeControls.style.display === "block") {
         document.querySelectorAll('.remove-btn').forEach(btn => btn.style.display = 'inline-block');
         document.querySelectorAll('.drag-handle').forEach(h => h.style.display = 'inline');
-        document.querySelectorAll('#taskList li').forEach(li => { li.draggable = true; });
     }
 
     // Hide task list if in draw mode
@@ -183,7 +190,6 @@ function toggleControls() {
             taskModeControls.style.display = "block";
             document.querySelectorAll('.remove-btn').forEach(btn => btn.style.display = 'inline-block');
             document.querySelectorAll('.drag-handle').forEach(h => h.style.display = 'inline');
-            document.querySelectorAll('#taskList li').forEach(li => { li.draggable = true; });
         } else {
             drawModeControls.style.display = "block";
         }
@@ -192,7 +198,6 @@ function toggleControls() {
         drawModeControls.style.display = "none";
         document.querySelectorAll('.remove-btn').forEach(btn => btn.style.display = 'none');
         document.querySelectorAll('.drag-handle').forEach(h => h.style.display = 'none');
-        document.querySelectorAll('#taskList li').forEach(li => { li.draggable = false; });
     }
 
     // Show/hide draw mode controls
@@ -221,7 +226,6 @@ function toggleDrawMode() {
         toggleDrawModeButton.style.backgroundColor = "#505050"; // Change color back to default
         document.querySelectorAll('.remove-btn').forEach(btn => btn.style.display = 'inline-block'); // Show remove buttons
         document.querySelectorAll('.drag-handle').forEach(h => h.style.display = 'inline');
-        document.querySelectorAll('#taskList li').forEach(li => { li.draggable = true; });
         loadTasks(); // Ensure tasks are loaded when switching to task mode
     }
 }
