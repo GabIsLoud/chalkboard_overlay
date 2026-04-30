@@ -159,6 +159,7 @@ function addTask() {
         localStorage.setItem('tasks', JSON.stringify(tasks));
         loadTasks();
         taskInput.value = "";
+        taskInput.focus();
     }
 }
 
@@ -268,3 +269,7 @@ function decreaseChalkWidth() {
 // Load initial font and tasks
 document.body.classList.add("cabin-sketch-bold");
 loadTasks();
+
+document.getElementById("taskInput").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") addTask();
+});
