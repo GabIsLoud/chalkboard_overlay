@@ -30,7 +30,6 @@ ul {
 li {
     font-size: 20px;
     margin: 25px 0;
-    cursor: pointer;
     display: flex;
     align-items: center;
 }
@@ -47,6 +46,7 @@ li .drag-handle {
 
 li .task-text {
     flex: 1;
+    cursor: pointer;
 }
 
 li.dragging {

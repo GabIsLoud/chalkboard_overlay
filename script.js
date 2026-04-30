@@ -32,7 +32,6 @@ function loadTasks() {
     tasks.forEach((task, index) => {
         const li = document.createElement("li");
         if (task.crossed) li.classList.add("crossed");
-        li.onclick = () => toggleTaskCross(li, index);
 
         // Add drag handle
         const dragHandle = document.createElement("span");
@@ -52,6 +51,7 @@ function loadTasks() {
         const taskText = document.createElement("span");
         taskText.textContent = task.text;
         taskText.className = "task-text";
+        taskText.onclick = () => toggleTaskCross(index);
         li.appendChild(taskText);
 
         // Add remove button
@@ -68,7 +68,9 @@ function loadTasks() {
         li.addEventListener("dragstart", (e) => {
             dragSrcIndex = index;
             e.dataTransfer.effectAllowed = "move";
-            setTimeout(() => li.classList.add("dragging"), 0);
+            setTimeout(() => {
+                if (dragSrcIndex !== null) li.classList.add("dragging");
+            }, 0);
         });
         li.addEventListener("dragover", (e) => {
             e.preventDefault();
@@ -169,11 +171,11 @@ function removeTask(index) {
 }
 
 // Toggle task crossed state
-function toggleTaskCross(li, index) {
+function toggleTaskCross(index) {
     const tasks = JSON.parse(localStorage.getItem('tasks'));
     tasks[index].crossed = !tasks[index].crossed;
-    li.classList.toggle("crossed");
     localStorage.setItem('tasks', JSON.stringify(tasks));
+    loadTasks();
 }
 
 // Toggle between fonts
